@@ -1,6 +1,6 @@
 {
   "name": "node-express-api",
-  "description": "Simple api sample in Node",
+  "description": "The backend of Health Care Optical",
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
@@ -12,7 +12,16 @@
   "author": "Google LLC",
   "license": "Apache-2.0",
   "dependencies": {
-    "express": "^4.17.1"
+    "@vercel/blob": "^0.25.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.17.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.0",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
