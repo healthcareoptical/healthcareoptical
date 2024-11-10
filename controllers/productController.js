@@ -4,6 +4,7 @@ export async function createProduct(req, res, next) {
 
     console.log("Inside product service");
     console.log("Request " + JSON.stringify(req));
+    console.log("price " + req.body.price);
     const file = req.file || null;
     const price = req.body.price;
     const modelNo = req.body.modelNo;
