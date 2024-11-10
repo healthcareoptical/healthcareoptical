@@ -12,6 +12,8 @@ export async function createProduct(req, res, next) {
     const prodNameZh = req.body.prodNameZh;
     const categoryId = req.body.categoryId;
     const brandId = req.body.brandId;
+    console.log("File " + file)
+    console.log("Request " + req);
 
     let response = {};
 
