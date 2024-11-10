@@ -3,7 +3,7 @@ import * as productService from '../services/productService.js';
 export async function createProduct(req, res, next) {
 
     console.log("Inside product service");
-    console.log("Request " + req);
+    console.log("Request " + JSON.stringify(req));
     const file = req.file || null;
     const price = req.body.price;
     const modelNo = req.body.modelNo;
