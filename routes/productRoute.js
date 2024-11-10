@@ -7,7 +7,7 @@ const productRoute = Router();
 //Handle user by productConrtoller.login
 productRoute.route('/')
     .post(upload.single(file), productConrtoller.createProduct)
-    .patch(productConrtoller.updateProduct)
+    .patch(upload.single(file), productConrtoller.updateProduct)
     .get(productConrtoller.getProducts)
     .delete(productConrtoller.deleteProduct);
 
