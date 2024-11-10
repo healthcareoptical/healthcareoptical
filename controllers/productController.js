@@ -2,6 +2,8 @@ import * as productService from '../services/productService.js';
 
 export async function createProduct(req, res, next) {
 
+    console.log("Inside product service");
+    console.log("Request " + req);
     const file = req.file || null;
     const price = req.body.price;
     const modelNo = req.body.modelNo;
@@ -12,8 +14,7 @@ export async function createProduct(req, res, next) {
     const prodNameZh = req.body.prodNameZh;
     const categoryId = req.body.categoryId;
     const brandId = req.body.brandId;
-    console.log("File " + file)
-    console.log("Request " + req);
+    console.log("File " + file);
 
     let response = {};
 
