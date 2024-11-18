@@ -50,6 +50,7 @@ describe('Testing of menu controller', async function() {
         await menuController.getSelections({}, res, () => {});
 
         expect(res.statusCode).to.be.equal(200);
+        
         expect(res.returnSelections.length).to.be.greaterThan(0);
 
         Category.find.restore();

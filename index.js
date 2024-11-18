@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import helmet from 'helmet';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRoute from './routes/authRoute.js';
 import userRoute from './routes/userRoute.js';
@@ -10,12 +11,14 @@ import brandRoute from './routes/brandRoute.js';
 import productRoute from './routes/productRoute.js';
 import menuRoute from './routes/menuRoute.js';
 
+
 const app = express();
 dotenv.config();
 
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded());
 app.use(express.json());
+app.use(cors());
 
 //middleware for cookies
 app.use(cookieParser());
