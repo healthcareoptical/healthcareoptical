@@ -58,7 +58,8 @@ export async function createProduct(file, modelNo, price, discountPrice, prodDes
             imageUrl: imageUrl,
             category: categoryFound,
             brand: brandFound,
-            status: 'A'
+            status: 'A',
+            releaseDate: new Date()
         }], { session: sess });
 
         createProductReturn.errorCode = 0;

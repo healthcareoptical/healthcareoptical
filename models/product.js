@@ -40,6 +40,10 @@ const productSchema = new Schema({
   brand: {
       type: Schema.Types.ObjectId,
       ref: 'brands'
+  },
+  releaseDate: {
+    type: Schema.Types.Date,
+    required: true
   }
 },
   {
