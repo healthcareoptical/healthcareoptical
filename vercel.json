@@ -13,7 +13,7 @@
       }
     ],
     "functions": {
-        "api/*.js": {
+        "src/*.js": {
           "maxDuration": 15 
         }
   }
