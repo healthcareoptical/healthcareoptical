@@ -9,8 +9,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js",
     "test": "mocha",
-    "report": "npx mocha --reporter spec > test-results.txt",
-    "report2": "npx mocha --reporter spec > test-results.txt"
+    "report": "npx mocha --reporter spec > test-results.txt"
   },
   "author": "Google LLC",
   "license": "Apache-2.0",
