@@ -17,7 +17,6 @@ dotenv.config();
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded());
 app.use(express.json());
-app.use(bodyParser.json());
 app.use(cors(
   ({
     origin: (origin, callback) => {
