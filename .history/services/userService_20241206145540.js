@@ -26,8 +26,8 @@ export async function createUser(userId, password, roleNames) {
         const roles = await Role.find({ $and :[ {roleName: roleNames}, {status:'A'}] });
 
         if (!roles || roles.length == 0){
-            createUserReturn.errorCode = 404;
-            createUserReturn.errorMessage = 'Role does not exist';
+            createUserReturn.errorCode = 409;
+            createUserReturn.errorMessage = 'Role does not exists';
             return createUserReturn;
         }
 
@@ -62,7 +62,7 @@ export async function updateUser(userId, password) {
 
         if (!user) {
             updateUserReturn.errorCode = 404;
-            updateUserReturn.errorMessage = 'User does not exist';
+            updateUserReturn.errorMessage = 'User does not exists';
             return updateUserReturn;
         }
 
