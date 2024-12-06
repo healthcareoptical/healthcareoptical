@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 export async function sendEmail(req, res, next) {
 
-    const resend = new Resend(process.env.EMAIL_KEY);
+    const resend = new Resend('re_Dhfgzikv_JndTLcmbV1Thab8rpyRZ4z47');
     const subject = req.body.subject;
     const message = req.body.message;
 
