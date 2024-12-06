@@ -10,13 +10,12 @@ import categoryRoute from './routes/categoryRoute.js';
 import brandRoute from './routes/brandRoute.js';
 import productRoute from './routes/productRoute.js';
 import menuRoute from './routes/menuRoute.js';
-import bodyParser from 'body-parser';
 
 const app = express();
 dotenv.config();
 
 // built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors(
