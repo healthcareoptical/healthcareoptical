@@ -10,6 +10,7 @@ import categoryRoute from './routes/categoryRoute.js';
 import brandRoute from './routes/brandRoute.js';
 import productRoute from './routes/productRoute.js';
 import menuRoute from './routes/menuRoute.js';
+import emailRoute from './routes/emailRoute.js';
 
 const app = express();
 dotenv.config();
@@ -51,6 +52,9 @@ app.use('/product', productRoute);
 
 //Route menu to menuRoute
 app.use('/menu', menuRoute);
+
+//Route email to email
+app.use('/email', emailRoute);
 
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;
