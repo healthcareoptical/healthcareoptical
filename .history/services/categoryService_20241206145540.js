@@ -47,7 +47,7 @@ export async function updateCategory(id, categoryNameZh, categoryNameEn) {
 
         if (!category || category.status !== 'A') {
             updateCategoryReturn.errorCode = 404;
-            updateCategoryReturn.errorMessage = 'Category does not exist';
+            updateCategoryReturn.errorMessage = 'Category does not exists';
             return updateCategoryReturn;
         }
 

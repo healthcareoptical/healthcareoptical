@@ -26,7 +26,7 @@ export async function createProduct(file, modelNo, price, discountPrice, prodDes
 
         if (!categoryFound || categoryFound.status !== 'A'){
             createProductReturn.errorCode = 409;
-            createProductReturn.errorMessage = 'Category does not exist';
+            createProductReturn.errorMessage = 'Category does not exists';
             return createProductReturn;
         }
 
@@ -35,7 +35,7 @@ export async function createProduct(file, modelNo, price, discountPrice, prodDes
 
         if (!brandFound || brandFound.status !== 'A'){
             createProductReturn.errorCode = 409;
-            createProductReturn.errorMessage = 'Brand does not exist';
+            createProductReturn.errorMessage = 'Brand does not exists';
             return createProductReturn;
         }
 
@@ -85,7 +85,7 @@ export async function updateProduct(id, modelNo, file, price, discountPrice, pro
 
         if (!product || product.status !== 'A') {
             updateProductReturn.errorCode = 404;
-            updateProductReturn.errorMessage = 'Product does not exist';
+            updateProductReturn.errorMessage = 'Product does not exists';
             return updateProductReturn;
         }
 
@@ -94,7 +94,7 @@ export async function updateProduct(id, modelNo, file, price, discountPrice, pro
 
         if (!categoryFound || categoryFound.status !== 'A'){
             updateProductReturn.errorCode = 409;
-            updateProductReturn.errorMessage = 'Category does not exist';
+            updateProductReturn.errorMessage = 'Category does not exists';
             return updateProductReturn;
         }
 
@@ -103,7 +103,7 @@ export async function updateProduct(id, modelNo, file, price, discountPrice, pro
 
         if (!brandFound || brandFound.status !== 'A'){
             updateProductReturn.errorCode = 409;
-            updateProductReturn.errorMessage = 'Brand does not exist';
+            updateProductReturn.errorMessage = 'Brand does not exists';
             return updateProductReturn;
         }
 
@@ -161,14 +161,14 @@ export async function getProducts(id, categoryId, brandId, orderBy, order ) {
                 query.category = { $eq: category };
             }
             let productQuery = Product.find(query);
-            let sortDirection = 1;
+            let sortDirtection = 1;
             if (order) {
-                sortDirection = order === 'desc' ? -1 : 1;
+                sortDirtection = order === 'desc' ? -1 : 1;
             }
             if (!orderBy){
                 orderBy = 'createdAt';
             }
-            productQuery = productQuery.sort({ [orderBy]: sortDirection });
+            productQuery = productQuery.sort({ [orderBy]: sortDirtection });
             const products = await productQuery.exec();
             if (!products || products.length == 0) {
                 getProductReturn.errorCode = 404;
