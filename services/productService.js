@@ -5,6 +5,25 @@ import mongoose from 'mongoose';
 import { uploadImage } from '../middlewares/uploadFile.js';
 
 
+/**
+ * Creates a new category if it does not already exist.
+ *
+ * @async
+ * @function createCategory
+ * @param {string} categoryNameZh - The Chinese name of the category.
+ * @param {string} categoryNameEn - The English name of the category.
+ * @returns {Promise<Object>} A promise that resolves to an object containing the creation result:
+ * - `errorCode` {number} - `0` if successful, `409` if the category already exists, or `500` for other errors.
+ * - `errorMessage` {string} - Descriptive error message or an empty string on success.
+ *
+ * @example
+ * const result = await createCategory('类别中文名', 'Category Name');
+ * if (result.errorCode === 0) {
+ *     console.log('Category created successfully.');
+ * } else {
+ *     console.error('Error:', result.errorMessage);
+ * }
+ */
 export async function createProduct(file, modelNo, price, discountPrice, prodDescEn, prodDescZh, prodNameEn, prodNameZh, categoryId, brandId) {
 
     const createProductReturn = {};
@@ -73,6 +92,26 @@ export async function createProduct(file, modelNo, price, discountPrice, prodDes
     return createProductReturn;
 }
 
+/**
+ * Updates an existing category's details.
+ *
+ * @async
+ * @function updateCategory
+ * @param {string} id - The ID of the category to update.
+ * @param {string} categoryNameZh - The updated Chinese name of the category.
+ * @param {string} categoryNameEn - The updated English name of the category.
+ * @returns {Promise<Object>} A promise that resolves to an object containing the update result:
+ * - `errorCode` {number} - `0` if successful, `404` if the category does not exist, or `500` for other errors.
+ * - `errorMessage` {string} - Descriptive error message or an empty string on success.
+ *
+ * @example
+ * const result = await updateCategory('12345', '新类别中文名', 'Updated Category Name');
+ * if (result.errorCode === 0) {
+ *     console.log('Category updated successfully.');
+ * } else {
+ *     console.error('Error:', result.errorMessage);
+ * }
+ */
 export async function updateProduct(id, modelNo, file, price, discountPrice, prodDescEn, prodDescZh, prodNameEn, prodNameZh, categoryId, brandId) {
 
     const updateProductReturn = {};
@@ -135,6 +174,25 @@ export async function updateProduct(id, modelNo, file, price, discountPrice, pro
     return updateProductReturn;
 }
 
+/**
+ * Retrieves category(s) from the database.
+ *
+ * @async
+ * @function getCategories
+ * @param {string} [id] - The ID of a specific category to retrieve. If not provided, all active categories are returned.
+ * @returns {Promise<Object>} A promise that resolves to an object containing the retrieval result:
+ * - `errorCode` {number} - `0` if successful, `404` if no categories are found, or `500` for other errors.
+ * - `errorMessage` {string} - Descriptive error message or an empty string on success.
+ * - `categories` {Array<Object>} - An array of category objects or a single category object if `id` is provided.
+ *
+ * @example
+ * const result = await getCategories();
+ * if (result.errorCode === 0) {
+ *     console.log('Categories retrieved:', result.categories);
+ * } else {
+ *     console.error('Error:', result.errorMessage);
+ * }
+ */
 export async function getProducts(id, categoryId, brandId, orderBy, order ) {
     const getProductReturn = {};
     try {
@@ -188,6 +246,24 @@ export async function getProducts(id, categoryId, brandId, orderBy, order ) {
     return getProductReturn;
 }
 
+/**
+ * Marks a category as deleted by changing its status to 'D'.
+ *
+ * @async
+ * @function deleteCategory
+ * @param {string} id - The ID of the category to delete.
+ * @returns {Promise<Object>} A promise that resolves to an object containing the deletion result:
+ * - `errorCode` {number} - `0` if successful, `404` if the category does not exist, or `500` for other errors.
+ * - `errorMessage` {string} - Descriptive error message or an empty string on success.
+ *
+ * @example
+ * const result = await deleteCategory('12345');
+ * if (result.errorCode === 0) {
+ *     console.log('Category deleted successfully.');
+ * } else {
+ *     console.error('Error:', result.errorMessage);
+ * }
+ */
 export async function deleteProduct(id) {
 
     const deleteProductReturn = {};

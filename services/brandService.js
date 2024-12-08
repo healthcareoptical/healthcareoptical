@@ -1,6 +1,25 @@
 import { Brand } from '../models/brand.js';
 import mongoose from 'mongoose';
 
+/** 
+ * Creates a new brand if it does not already exist.
+ *
+ * @async
+ * @function createBrand
+ * @param {string} brandNameZh - The Chinese name of the brand.
+ * @param {string} brandNameEn - The English name of the brand.
+ * @returns {Promise<Object>} A promise that resolves to an object containing the creation result:
+ * - `errorCode` {number} - `0` if successful, `409` if the brand already exists, or `500` for other errors.
+ * - `errorMessage` {string} - Descriptive error message or an empty string on success.
+ *
+ * @example
+ * const result = await createBrand('品牌中文名', 'Brand Name');
+ * if (result.errorCode === 0) {
+ *     console.log('Brand created successfully.');
+ * } else {
+ *     console.error('Error:', result.errorMessage);
+ * }
+ */
 export async function createBrand(brandNameZh, brandNameEn) {
 
     const createBrandReturn = {};
@@ -8,7 +27,6 @@ export async function createBrand(brandNameZh, brandNameEn) {
     sess.startTransaction();
 
     try {
-        //check if brand exist
         const duplicatedBrand = await Brand.findOne({ $and :[{ brandNameEn: { $regex: new RegExp(`^${brandNameEn}$`, 'i') } }, {status :'A'} ]});
 
         if (duplicatedBrand) {
@@ -17,7 +35,6 @@ export async function createBrand(brandNameZh, brandNameEn) {
             return createBrandReturn;
         }
 
-        //create Brand if not exist
         await Brand.create([{
             brandNameEn: brandNameEn,
             brandNameZh: brandNameZh,
@@ -35,6 +52,26 @@ export async function createBrand(brandNameZh, brandNameEn) {
     return createBrandReturn;
 }
 
+/**
+ * Updates an existing brand's details.
+ *
+ * @async
+ * @function updateBrand
+ * @param {string} id - The ID of the brand to update.
+ * @param {string} brandNameZh - The updated Chinese name of the brand.
+ * @param {string} brandNameEn - The updated English name of the brand.
+ * @returns {Promise<Object>} A promise that resolves to an object containing the update result:
+ * - `errorCode` {number} - `0` if successful, `404` if the brand does not exist, or `500` for other errors.
+ * - `errorMessage` {string} - Descriptive error message or an empty string on success.
+ *
+ * @example
+ * const result = await updateBrand('12345', '新品牌中文名', 'Updated Brand Name');
+ * if (result.errorCode === 0) {
+ *     console.log('Brand updated successfully.');
+ * } else {
+ *     console.error('Error:', result.errorMessage);
+ * }
+ */
 export async function updateBrand(id, brandNameZh, brandNameEn) {
 
     const updateBrandReturn = {};
@@ -42,7 +79,6 @@ export async function updateBrand(id, brandNameZh, brandNameEn) {
     sess.startTransaction();
 
     try {
-        //check if brand exist
         const brand = await Brand.findById(id);
 
         if (!brand || brand.status !== 'A') {
@@ -51,7 +87,6 @@ export async function updateBrand(id, brandNameZh, brandNameEn) {
             return updateBrandReturn;
         }
 
-        //save modified brand
         brand.brandNameZh = brandNameZh;
         brand.brandNameEn = brandNameEn;
         await brand.save({ session: sess });
@@ -66,11 +101,29 @@ export async function updateBrand(id, brandNameZh, brandNameEn) {
     return updateBrandReturn;
 }
 
+/**
+ * Retrieves brand(s) from the database.
+ *
+ * @async
+ * @function getBrands
+ * @param {string} [id] - The ID of a specific brand to retrieve. If not provided, all active brands are returned.
+ * @returns {Promise<Object>} A promise that resolves to an object containing the retrieval result:
+ * - `errorCode` {number} - `0` if successful, `404` if no brands are found, or `500` for other errors.
+ * - `errorMessage` {string} - Descriptive error message or an empty string on success.
+ * - `brands` {Array<Object>} - An array of brand objects or a single brand object if `id` is provided.
+ *
+ * @example
+ * const result = await getBrands();
+ * if (result.errorCode === 0) {
+ *     console.log('Brands retrieved:', result.brands);
+ * } else {
+ *     console.error('Error:', result.errorMessage);
+ * }
+ */
 export async function getBrands(id) {
     const getBrandsReturn = {};
 
     try {
-        //get brand
         if (id) {
             const brand = await Brand.findById(id);
             if (!brand) {
@@ -88,7 +141,6 @@ export async function getBrands(id) {
                 return getBrandsReturn;
             }
             
-            //return brand lists
             getBrandsReturn.brands = brands;
         }
         getBrandsReturn.errorCode = 0;
@@ -100,6 +152,24 @@ export async function getBrands(id) {
     return getBrandsReturn;
 }
 
+/**
+ * Marks a brand as deleted by changing its status to 'D'.
+ *
+ * @async
+ * @function deleteBrand
+ * @param {string} id - The ID of the brand to delete.
+ * @returns {Promise<Object>} A promise that resolves to an object containing the deletion result:
+ * - `errorCode` {number} - `0` if successful, `404` if the brand does not exist, or `500` for other errors.
+ * - `errorMessage` {string} - Descriptive error message or an empty string on success.
+ *
+ * @example
+ * const result = await deleteBrand('12345');
+ * if (result.errorCode === 0) {
+ *     console.log('Brand deleted successfully.');
+ * } else {
+ *     console.error('Error:', result.errorMessage);
+ * }
+ */
 export async function deleteBrand(id) {
 
     const deleteBrandReturn = {};
@@ -107,7 +177,6 @@ export async function deleteBrand(id) {
     sess.startTransaction();
 
     try {
-        //check if brand exist
         const brand = await Brand.findById(id);
 
         if (!brand || brand.status !== 'A') {
@@ -116,7 +185,6 @@ export async function deleteBrand(id) {
             return deleteBrandReturn;
         }
 
-        //save modified brand
         brand.status = 'D';
         await brand.save({ session: sess });
         await sess.commitTransaction();

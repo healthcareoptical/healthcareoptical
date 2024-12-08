@@ -235,6 +235,7 @@ describe('Testing of brand controller', async function() {
     it('Testing delete brand -- should return success if brand deleted successfully', async function(){
 
         const mockBrand = {
+            id: 123,
             brandNameZh: 'abc',
             brandNameEn: 'abc',
             status: 'A',

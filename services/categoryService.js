@@ -8,7 +8,6 @@ export async function createCategory(categoryNameZh, categoryNameEn) {
     sess.startTransaction();
 
     try {
-        //check if category exist
         const duplicatedCategory = await Category.findOne({ $and :[{ categoryNameEn: { $regex: new RegExp(`^${categoryNameEn}$`, 'i') } }, {status :'A'} ]});
 
         if (duplicatedCategory) {
@@ -17,7 +16,6 @@ export async function createCategory(categoryNameZh, categoryNameEn) {
             return createCategoryReturn;
         }
 
-        //create category if not exist
         await Category.create([{
             categoryNameEn: categoryNameEn,
             categoryNameZh: categoryNameZh,
@@ -42,7 +40,6 @@ export async function updateCategory(id, categoryNameZh, categoryNameEn) {
     sess.startTransaction();
 
     try {
-        //check if category exist
         const category = await Category.findById(id);
 
         if (!category || category.status !== 'A') {
@@ -51,7 +48,6 @@ export async function updateCategory(id, categoryNameZh, categoryNameEn) {
             return updateCategoryReturn;
         }
 
-        //save modified user
         category.categoryNameZh = categoryNameZh;
         category.categoryNameEn = categoryNameEn;
         await category.save({ session: sess });
@@ -70,7 +66,6 @@ export async function getCategories(id) {
     const getCategoriesReturn = {};
 
     try {
-        //get category
         if (id) {
             const category = await Category.findById(id);
             if (!category) {
@@ -88,7 +83,6 @@ export async function getCategories(id) {
                 return getCategoriesReturn;
             }
             
-            //return category lists
             getCategoriesReturn.categories = categories;
         }
         getCategoriesReturn.errorCode = 0;
@@ -107,7 +101,6 @@ export async function deleteCategory(id) {
     sess.startTransaction();
 
     try {
-        //check if category exist
         const category = await Category.findById(id);
 
         if (!category || category.status !== 'A') {
@@ -116,7 +109,6 @@ export async function deleteCategory(id) {
             return deleteCategoryReturn;
         }
 
-        //save modified user
         category.status = 'D';
         await category.save({ session: sess });
         await sess.commitTransaction();

@@ -3,9 +3,28 @@ import { Role } from '../models/role.js';
 import mongoose from 'mongoose';
 import bcryptjs from 'bcryptjs';
 
-
 const { hash } = bcryptjs;
 
+/**
+ * Creates a new user with the specified roles.
+ *
+ * @async
+ * @function createUser
+ * @param {string} userId - The ID of the new user.
+ * @param {string} password - The password for the new user (hashed during creation).
+ * @param {string[]} roleNames - An array of role names to assign to the user.
+ * @returns {Promise<Object>} A promise that resolves to an object containing the creation result:
+ * - `errorCode` {number} - `0` if successful, `409` if the user or roles already exist, or `500` for other errors.
+ * - `errorMessage` {string} - Descriptive error message or an empty string on success.
+ *
+ * @example
+ * const result = await createUser('john_doe', 'password123', ['Admin', 'Editor']);
+ * if (result.errorCode === 0) {
+ *     console.log('User created successfully.');
+ * } else {
+ *     console.error('Error:', result.errorMessage);
+ * }
+ */
 export async function createUser(userId, password, roleNames) {
 
     const createUserReturn = {};
@@ -50,6 +69,26 @@ export async function createUser(userId, password, roleNames) {
     return createUserReturn;
 }
 
+/**
+ * Updates the password of an existing user.
+ *
+ * @async
+ * @function updateUser
+ * @param {string} userId - The ID of the user to update.
+ * @param {string} password - The new password for the user (hashed during update).
+ * @returns {Promise<Object>} A promise that resolves to an object containing the update result:
+ * - `errorCode` {number} - `0` if successful, `404` if the user does not exist, or `500` for other errors.
+ * - `errorMessage` {string} - Descriptive error message or an empty string on success.
+ *
+ * @example
+ * const result = await updateUser('john_doe', 'new_password123');
+ * if (result.errorCode === 0) {
+ *     console.log('User password updated successfully.');
+ * } else {
+ *     console.error('Error:', result.errorMessage);
+ * }
+ */
+
 export async function updateUser(userId, password) {
 
     const updateUserReturn = {};
@@ -79,6 +118,26 @@ export async function updateUser(userId, password) {
     sess.endSession();
     return updateUserReturn;
 }
+
+/**
+ * Retrieves user(s) from the database.
+ *
+ * @async
+ * @function getUsers
+ * @param {string} [userId] - The ID of a specific user to retrieve. If not provided, all active users are returned.
+ * @returns {Promise<Object>} A promise that resolves to an object containing the retrieval result:
+ * - `errorCode` {number} - `0` if successful, `404` if no users are found, or `500` for other errors.
+ * - `errorMessage` {string} - Descriptive error message or an empty string on success.
+ * - `users` {Array<Object>} - An array of user objects without sensitive data like passwords.
+ *
+ * @example
+ * const result = await getUsers('john_doe');
+ * if (result.errorCode === 0) {
+ *     console.log('User retrieved:', result.users);
+ * } else {
+ *     console.error('Error:', result.errorMessage);
+ * }
+ */
 
 export async function getUsers(userId) {
     const getUsersReturn = {};
@@ -114,6 +173,25 @@ export async function getUsers(userId) {
     }
     return getUsersReturn;
 }
+
+/**
+ * Marks a user as deleted by changing their status to 'D'.
+ *
+ * @async
+ * @function deleteUser
+ * @param {string} userId - The ID of the user to delete.
+ * @returns {Promise<Object>} A promise that resolves to an object containing the deletion result:
+ * - `errorCode` {number} - `0` if successful, `404` if the user does not exist, or `500` for other errors.
+ * - `errorMessage` {string} - Descriptive error message or an empty string on success.
+ *
+ * @example
+ * const result = await deleteUser('john_doe');
+ * if (result.errorCode === 0) {
+ *     console.log('User deleted successfully.');
+ * } else {
+ *     console.error('Error:', result.errorMessage);
+ * }
+ */
 
 export async function deleteUser(userId) {
 

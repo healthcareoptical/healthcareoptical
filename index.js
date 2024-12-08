@@ -15,9 +15,17 @@ import emailRoute from './routes/emailRoute.js';
 const app = express();
 dotenv.config();
 
-// built-in middleware to handle urlencoded form data
+/**
+ * Middleware to handle URL-encoded form data and JSON payloads.
+ */
 app.use(express.urlencoded());
 app.use(express.json());
+
+/**
+ * CORS middleware configuration to allow cross-origin requests.
+ * @param {Object} origin - The origin of the request.
+ * @param {Function} callback - The callback function to allow or reject the request.
+ */
 app.use(cors(
   ({
     origin: (origin, callback) => {
@@ -29,33 +37,58 @@ app.use(cors(
 ));
 
 
-//middleware for cookies
+/**
+ * Middleware to parse cookies from incoming requests.
+ */
 app.use(cookieParser());
 
-//Use helmet
+/**
+ * Helmet middleware to secure HTTP headers for protecting the application.
+ */
 app.use(helmet());
 
-//Route login to authRoute
+/**
+ * Route for handling user authentication and login-related actions.
+ */
 app.use('/auth', authRoute);
 
-//Route user to userRoute
+/**
+ * Route for managing user-related actions such as creation, update, and deletion.
+ */
 app.use('/user', userRoute);
 
-//Route category to categoryRoute
+/**
+ * Route for managing categories of products.
+ */
 app.use('/category', categoryRoute);
 
-//Route brand to brandRoute
+/**
+ * Route for managing product brands.
+ */
 app.use('/brand', brandRoute);
 
-//Route product to productRoute
+/**
+ * Route for managing products, including details like prices and descriptions.
+ */
 app.use('/product', productRoute);
 
-//Route menu to menuRoute
+/**
+ * Route for managing menu-related operations.
+ */
 app.use('/menu', menuRoute);
 
-//Route email to email
+/**
+ * Route for sending email notifications and other email-related actions.
+ */
 app.use('/email', emailRoute);
 
+/**
+ * Error handling middleware for catching any errors during request processing.
+ * @param {Object} error - The error object containing details of the error.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ */
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;
   const message = error.errorMessage;
@@ -66,6 +99,11 @@ app.use((error, req, res, next) => {
 
 const port = parseInt(process.env.PORT) || 3000;
 
+/**
+ * Connect to MongoDB and start the Express server.
+ * If the connection is successful, the server starts on the configured port.
+ * @returns {Promise<void>} - A promise that resolves once the server starts.
+ */
 mongoose
   .connect(
     process.env.MONGO_URI || ''

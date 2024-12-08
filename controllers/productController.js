@@ -1,5 +1,26 @@
 import * as productService from '../services/productService.js';
 
+/**
+ * Creates a new product in the database.
+ * 
+ * This function validates the input data, including file (image), product details (price, model number, description, etc.),
+ * and calls `productService.createProduct` to create the product. If validation fails or an error occurs, it returns
+ * an appropriate error message. Otherwise, it returns a success message.
+ * 
+ * @async
+ * @function createProduct
+ * @param {Object} req - The Express request object containing the product details.
+ * @param {Object} res - The Express response object to send the response.
+ * @param {function} next - The next middleware function to handle errors.
+ * 
+ * @returns {void} - Sends a response indicating whether the product was successfully created or not.
+ * 
+ * @throws {Error} - If an error occurs, the error is passed to the next middleware with a message and error code.
+ * 
+ * @example
+ * // Example usage of createProduct function
+ * app.post('/products', createProduct);
+ */
 export async function createProduct(req, res, next) {
 
     const file = req.file || null;
@@ -74,6 +95,27 @@ export async function createProduct(req, res, next) {
     res.status(201).json({ message:'Product Created'});
 }
 
+/**
+ * Updates an existing product in the database.
+ * 
+ * This function validates the input data, including file (image), product details (price, model number, description, etc.),
+ * and calls `productService.updateProduct` to update the product details. If validation fails or an error occurs, it returns
+ * an appropriate error message. Otherwise, it returns a success message.
+ * 
+ * @async
+ * @function updateProduct
+ * @param {Object} req - The Express request object containing the product details.
+ * @param {Object} res - The Express response object to send the response.
+ * @param {function} next - The next middleware function to handle errors.
+ * 
+ * @returns {void} - Sends a response indicating whether the product was successfully updated or not.
+ * 
+ * @throws {Error} - If an error occurs, the error is passed to the next middleware with a message and error code.
+ * 
+ * @example
+ * // Example usage of updateProduct function
+ * app.put('/products', updateProduct);
+ */
 export async function updateProduct(req, res, next) {
 
     const file = req.file || null;
@@ -149,6 +191,26 @@ export async function updateProduct(req, res, next) {
     res.status(201).json({ message:'Product Updatded'});
 }
 
+/**
+ * Retrieves a list of products from the database based on query parameters.
+ * 
+ * This function calls `productService.getProducts` with the provided query parameters (product ID, category ID, brand ID, etc.)
+ * and returns a list of products matching the criteria. If an error occurs, it returns an appropriate error message.
+ * 
+ * @async
+ * @function getProducts
+ * @param {Object} req - The Express request object containing query parameters.
+ * @param {Object} res - The Express response object to send the response.
+ * @param {function} next - The next middleware function to handle errors.
+ * 
+ * @returns {void} - Sends a response containing the list of products or an error message.
+ * 
+ * @throws {Error} - If an error occurs, the error is passed to the next middleware with a message and error code.
+ * 
+ * @example
+ * // Example usage of getProducts function
+ * app.get('/products', getProducts);
+ */
 export async function getProducts(req, res, next) {
 
     let response = {};
@@ -169,6 +231,26 @@ export async function getProducts(req, res, next) {
     res.status(200).json({ products:response.products});
 }
 
+/**
+ * Deletes a product from the database.
+ * 
+ * This function validates the input data and calls `productService.deleteProduct` to delete the specified product by ID.
+ * If an error occurs, it returns an appropriate error message. Otherwise, it returns a success message.
+ * 
+ * @async
+ * @function deleteProduct
+ * @param {Object} req - The Express request object containing the product ID to be deleted.
+ * @param {Object} res - The Express response object to send the response.
+ * @param {function} next - The next middleware function to handle errors.
+ * 
+ * @returns {void} - Sends a response indicating whether the product was successfully deleted or not.
+ * 
+ * @throws {Error} - If an error occurs, the error is passed to the next middleware with a message and error code.
+ * 
+ * @example
+ * // Example usage of deleteProduct function
+ * app.delete('/products', deleteProduct);
+ */
 export async function deleteProduct(req, res, next) {
 
     let response = {};
