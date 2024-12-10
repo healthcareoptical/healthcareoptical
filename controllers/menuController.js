@@ -24,7 +24,6 @@ import * as menuService from '../services/menuService.js';
 export async function getSelections(req, res, next) {
 
     let response = {};
-    console.log('I am in menu controller ', req.headers.origin);
     response = await menuService.getSelections();
 
     if (response.errorCode !== 0) {
