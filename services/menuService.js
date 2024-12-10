@@ -41,9 +41,14 @@ export async function getSelections() {
     const getSelectionReturn = {};
     const sess = await mongoose.startSession();
     sess.startTransaction();
+    let timeSt = new Date().getTime();
+    let timeEd = new Date().getTime();
     try {
         let menu = [];
+        console.log('Calling Category');
         const categories = await Category.find({status : 'A'});
+        timeEd = new Date().getTime();
+        console.log('Finish calling Category used ' + ((timeEd - timeSt) /1000 );
 
         if (!categories || categories.length === 0){
             getSelectionReturn.errorCode = 404;
@@ -56,7 +61,14 @@ export async function getSelections() {
                 count :0,
                 brands: []
             }
+            timeSt = new Date().getTime(); 
+            console.log('Calling Products ');
             const categoryProducts = await Product.find({ category: { $eq: category }, status: 'A' }).populate('brand');
+            timeEd = new Date().getTime();
+            console.log('Finish calling Product used ' + ((timeEd - timeSt) /1000 );
+
+            timeSt = new Date().getTime(); 
+            console.log('Calling menu ');
             if (categoryProducts && categoryProducts.length > 0){
                 const result = categoryProducts.reduce((acc, item) => {
                     const existing = acc.find(obj => obj.brand === item.brand);
@@ -71,6 +83,8 @@ export async function getSelections() {
                 menuItem.count = categoryProducts.length;
             }
             menu.push(menuItem);
+            timeEd = new Date().getTime();
+            console.log('Finish calling menu used ' + ((timeEd - timeSt) /1000 );
         }
         
         if (!menu || menu.length ===0){
