@@ -48,7 +48,7 @@ export async function getSelections() {
         console.log('Calling Category');
         const categories = await Category.find({status : 'A'});
         timeEd = new Date().getTime();
-        console.log('Finish calling Category used ' + ((timeEd - timeSt) /1000 );
+        console.log('Finish calling Category used ' + ((timeEd - timeSt) /1000 ));
 
         if (!categories || categories.length === 0){
             getSelectionReturn.errorCode = 404;
@@ -65,7 +65,7 @@ export async function getSelections() {
             console.log('Calling Products ');
             const categoryProducts = await Product.find({ category: { $eq: category }, status: 'A' }).populate('brand');
             timeEd = new Date().getTime();
-            console.log('Finish calling Product used ' + ((timeEd - timeSt) /1000 );
+            console.log('Finish calling Product used ' + ((timeEd - timeSt) /1000 ));
 
             timeSt = new Date().getTime(); 
             console.log('Calling menu ');
@@ -84,7 +84,7 @@ export async function getSelections() {
             }
             menu.push(menuItem);
             timeEd = new Date().getTime();
-            console.log('Finish calling menu used ' + ((timeEd - timeSt) /1000 );
+            console.log('Finish calling menu used ' + ((timeEd - timeSt) /1000 ));
         }
         
         if (!menu || menu.length ===0){
