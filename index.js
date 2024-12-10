@@ -36,6 +36,7 @@ app.use(cors(
       if (env === 'dev') {
         callback(null, true);
       } else {
+        console.log('see' , allowedOrigins.indexOf(origin || ""))
         if (allowedOrigins.indexOf(origin || "") !== -1) {
           console.log('allowedOrigins ',allowedOrigins);
           callback(null, true)
