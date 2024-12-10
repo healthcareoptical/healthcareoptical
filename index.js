@@ -32,10 +32,10 @@ app.use(cors(
   ({
     origin: (origin, callback) => {
       console.log('env ',env);
+      console.log('Received Origin:', origin);
       if (env === 'dev') {
         callback(null, true);
       } else {
-        console.log('origin ',origin);
         if (allowedOrigins.indexOf(origin || "") !== -1 || !origin) {
           console.log('allowedOrigins ',allowedOrigins);
           callback(null, true)
