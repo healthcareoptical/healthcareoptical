@@ -22,7 +22,7 @@ import * as productService from '../services/productService.js';
  * app.post('/products', createProduct);
  */
 export async function createProduct(req, res, next) {
-
+    console.log('start to create product ');
     const file = req.file || null;
     const price = req.body.price;
     const modelNo = req.body.modelNo;
@@ -91,7 +91,8 @@ export async function createProduct(req, res, next) {
         response.errorCode = response.errorCode || 500;
         return next(response);
     }
-
+    
+    console.log('end to create product ');
     res.status(201).json({ message:'Product Created'});
 }
 
