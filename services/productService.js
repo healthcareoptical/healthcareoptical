@@ -3,8 +3,9 @@ import { Brand } from '../models/brand.js';
 import { Category } from '../models/category.js';
 import mongoose from 'mongoose';
 import { uploadImage } from '../middlewares/uploadFile.js';
+import dotenv from 'dotenv';
 
-
+dotenv.config();
 /**
  * Creates a new category if it does not already exist.
  *
@@ -28,7 +29,8 @@ export async function createProduct(file, modelNo, price, discountPrice, prodDes
 
     const createProductReturn = {};
     console.log('start to get session');
-    const sess = await mongoose.startSession();
+    const db = await mongoose.createConnection(process.env.MONGO_URI).asPromise();
+    const sess = await db.startSession();
     console.log('Finish to get session');
     sess.startTransaction();
     console.log('Finish to get transaction');
