@@ -42,13 +42,8 @@ export async function getSelections() {
     const sess = await mongoose.startSession();
     sess.startTransaction();
     try {
-        let time = new Date().getTime();
-        let time2 = new Date().getTime();
-        console.log('Start Time ', time);
         let menu = [];
         const categories = await Category.find({status : 'A'});
-        time2 = new Date().getTime();
-        console.log('Get category Time ', (time2 - time)/1000);
 
         if (!categories || categories.length === 0){
             getSelectionReturn.errorCode = 404;
@@ -62,9 +57,6 @@ export async function getSelections() {
                 brands: []
             }
             const categoryProducts = await Product.find({ category: { $eq: category }, status: 'A' }).populate('brand');
-            time = time2;
-            time2 = new Date().getTime();
-            console.log('Get category product Time ', (time2 - time)/1000);
             if (categoryProducts && categoryProducts.length > 0){
                 const result = categoryProducts.reduce((acc, item) => {
                     const existing = acc.find(obj => obj.brand === item.brand);
@@ -79,9 +71,6 @@ export async function getSelections() {
                 menuItem.count = categoryProducts.length;
             }
             menu.push(menuItem);
-            time = time2;
-            time2 = new Date().getTime();
-            console.log('Finish menu Time ', (time2 - time)/1000);
         }
         
         if (!menu || menu.length ===0){
@@ -91,9 +80,6 @@ export async function getSelections() {
         getSelectionReturn.menu = menu;
         getSelectionReturn.errorCode = 0;
         getSelectionReturn.errorMessage = "";
-        time = time2;
-        time2 = new Date().getTime();
-        console.log('End Time ', (time2 - time)/1000);
     } catch {
         getSelectionReturn.errorCode = 500;
         getSelectionReturn.errorMessage = 'Error Occurs';
