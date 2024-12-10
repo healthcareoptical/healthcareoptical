@@ -26,10 +26,20 @@ app.use(express.json());
  * @param {Object} origin - The origin of the request.
  * @param {Function} callback - The callback function to allow or reject the request.
  */
+const allowedOrigins = process.env.ALLOW_ORIGINS || ["https://healthcareopticalweb.vercel.app"];
+const env = process.env.ENV || 'dev';
 app.use(cors(
   ({
     origin: (origin, callback) => {
-      callback(null, true);
+      if (env === 'dev') {
+        callback(null, true);
+      } else {
+        if (allowedOrigins.indexOf(origin || "") !== -1 || !origin) {
+          callback(null, true)
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      }
     },
     credentials: true,
     optionsSuccessStatus: 200
