@@ -40,11 +40,6 @@ import mongoose from 'mongoose';
 export async function getSelections() {
     console.log('start menu service');
     const getSelectionReturn = {};
-    console.log('start to get mongoose session');
-    const sess = await mongoose.startSession();
-    console.log('got mongoose session');
-    sess.startTransaction();
-    console.log('start mongoose session');
     let timeSt = new Date().getTime();
     let timeEd = new Date().getTime();
     try {
@@ -102,6 +97,5 @@ export async function getSelections() {
         getSelectionReturn.errorCode = 500;
         getSelectionReturn.errorMessage = 'Error Occurs';
     }
-    sess.endSession();
     return getSelectionReturn;
 }
