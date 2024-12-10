@@ -37,7 +37,7 @@ app.use(cors(
         callback(null, true);
       } else {
         console.log('see' , allowedOrigins.indexOf(origin || ""))
-        if (allowedOrigins.indexOf(origin || "") !== -1) {
+        if (allowedOrigins.indexOf(origin || "notAllowed") !== -1) {
           console.log('allowedOrigins ',allowedOrigins);
           callback(null, true)
         } else {
