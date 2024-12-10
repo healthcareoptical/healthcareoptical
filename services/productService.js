@@ -27,13 +27,17 @@ import { uploadImage } from '../middlewares/uploadFile.js';
 export async function createProduct(file, modelNo, price, discountPrice, prodDescEn, prodDescZh, prodNameEn, prodNameZh, categoryId, brandId) {
 
     const createProductReturn = {};
+    console.log('start to get session');
     const sess = await mongoose.startSession();
+    console.log('Finish to get session');
     sess.startTransaction();
+    console.log('Finish to get transaction');
 
     try {
         //check if product exist
         const duplicatedProduct = await Product.findOne({ $and :[{ modelNo: modelNo }, {status :'A'} ]});
-
+        console.log('Finish to check duplicate product');
+        
         if (duplicatedProduct) {
             createProductReturn.errorCode = 409;
             createProductReturn.errorMessage = 'Product already exists';
@@ -42,6 +46,7 @@ export async function createProduct(file, modelNo, price, discountPrice, prodDes
 
         //check if category exists
         const categoryFound = await Category.findById(categoryId);
+        console.log('Finish to check category');
 
         if (!categoryFound || categoryFound.status !== 'A'){
             createProductReturn.errorCode = 409;
@@ -51,6 +56,7 @@ export async function createProduct(file, modelNo, price, discountPrice, prodDes
 
         //check if brand exists
         const brandFound = await Brand.findById(brandId);
+        console.log('Finish to check brand');
 
         if (!brandFound || brandFound.status !== 'A'){
             createProductReturn.errorCode = 409;
@@ -64,6 +70,7 @@ export async function createProduct(file, modelNo, price, discountPrice, prodDes
             const blob = await uploadImage(file);
             imageUrl = blob?.downloadUrl;
         }
+        console.log('Finish to upload image');
 
         //create product if not exist
         await Product.create([{
@@ -80,15 +87,18 @@ export async function createProduct(file, modelNo, price, discountPrice, prodDes
             status: 'A',
             releaseDate: new Date()
         }], { session: sess });
-
+        console.log('Finish to create product');
+        
         createProductReturn.errorCode = 0;
         createProductReturn.errorMessage = '';
         await sess.commitTransaction();
+        console.log('Finish to commit session');
     } catch {
         createProductReturn.errorCode = 500;
         createProductReturn.errorMessage = 'Error Occurs';
     }
     sess.endSession();
+    console.log('Finish to end session');
     return createProductReturn;
 }
 
