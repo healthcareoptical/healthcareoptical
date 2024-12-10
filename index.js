@@ -31,12 +31,16 @@ const env = process.env.ENV || 'dev';
 app.use(cors(
   ({
     origin: (origin, callback) => {
+      console.log('env ',env);
       if (env === 'dev') {
         callback(null, true);
       } else {
+        console.log('origin ',origin);
         if (allowedOrigins.indexOf(origin || "") !== -1 || !origin) {
+          console.log('allowedOrigins ',allowedOrigins);
           callback(null, true)
         } else {
+          console.log('return error');
           callback(new Error('Not allowed by CORS'));
         }
       }
